@@ -220,7 +220,7 @@ export default function AdminUpload() {
 
                 {loading ? (
                     <LinearProgress variant="query" color="secondary"/>
-                ) : (null)}
+                ) : null}
                 <Paper style={{padding: 20, marginBottom: 10}}>
                     <FormControlLabel
                         control={<Switch checked={isUpdate} onChange={() => setIsUpdate(prev => !prev)}/>}

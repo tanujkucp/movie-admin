@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,11 +16,25 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from '../widgets/ListItems';
-import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
-import Orders from '../components/Orders';
+import UploadsRecord from '../components/UploadsRecord';
 import Footer from "../widgets/Footer";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ListItemText from "@material-ui/core/ListItemText";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import configs from "../../configs";
+import axios from "axios";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import TextField from "@material-ui/core/TextField";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
 
 const drawerWidth = 240;
 
@@ -103,9 +117,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+}
+
 export default function Dashboard() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
+    const [dialog_open, setDialogOpen] = React.useState(false);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [secret_key, setSecret] = React.useState('');
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -114,9 +136,50 @@ export default function Dashboard() {
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+    const downloadFile = (data, name) => {
+        let element = document.createElement("a");
+        let file = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        element.href = URL.createObjectURL(file);
+        element.download = name;
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+    }
+    const backup = (key) => {
+        //fetch data from server with given key
+        axios.post(configs.server_address + '/services/backupDatabase', {secret_key: key.trim()}).then(res => {
+            if (res.status === 200 ){
+                downloadFile(res.data.data, res.data.filename);
+                setSecret('');
+            }
+        }).catch(err => {
+            console.log(err);
+            if (err.response) alert(err.response.data.message);
+        });
+    };
+
     return (
         <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
+            <Dialog open={dialog_open} onClose={() => setDialogOpen(false)} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Admin Action</DialogTitle>
+                <DialogContent>
+                    <TextField autoFocus margin="dense" label="Secret Key" fullWidth
+                        value={secret_key}
+                        onChange={event => setSecret(event.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDialogOpen(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => {
+                        setDialogOpen(false);
+                        backup(secret_key);
+                    }} color="primary">
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
@@ -126,14 +189,14 @@ export default function Dashboard() {
                         onClick={handleDrawerOpen}
                         className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
+                        {configs.website_name} Dashboard
                     </Typography>
                     <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
+                        <Badge badgeContent={0} color="secondary">
+                            <NotificationsIcon/>
                         </Badge>
                     </IconButton>
                 </Toolbar>
@@ -147,34 +210,63 @@ export default function Dashboard() {
             >
                 <div className={classes.toolbarIcon}>
                     <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
+                        <ChevronLeftIcon/>
                     </IconButton>
                 </div>
-                <Divider />
-                <List>{mainListItems}</List>
-                <Divider />
-                <List>{secondaryListItems}</List>
+                <Divider/>
+                <List>
+
+                    <ListItemLink button href={'#'} selected={selectedIndex === 0} onClick={(e) => setSelectedIndex(0)}>
+                        <ListItemIcon>
+                            <DashboardIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard"/>
+                    </ListItemLink>
+                    <ListItemLink button href={'/login'}>
+                        <ListItemIcon>
+                            <LockOpenIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Login"/>
+                    </ListItemLink>
+                    <ListItemLink button href={'/upload'}>
+                        <ListItemIcon>
+                            <CloudUploadIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Upload"/>
+                    </ListItemLink>
+
+                </List>
+                <Divider/>
+                <List>
+                    <ListSubheader>Actions</ListSubheader>
+                    <ListItem button onClick={()=> setDialogOpen(true)}>
+                        <ListItemIcon>
+                            <CloudDownloadIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Backup Database"/>
+                    </ListItem>
+                </List>
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
+                <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
                         {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                                <Chart />
-                            </Paper>
-                        </Grid>
+                        {/*<Grid item xs={12} md={8} lg={9}>*/}
+                        {/*    <Paper className={fixedHeightPaper}>*/}
+                        {/*        <Chart />*/}
+                        {/*    </Paper>*/}
+                        {/*</Grid>*/}
                         {/* Recent Deposits */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                <Deposits />
-                            </Paper>
-                        </Grid>
-                        {/* Recent Orders */}
+                        {/*<Grid item xs={12} md={4} lg={3}>*/}
+                        {/*    <Paper className={fixedHeightPaper}>*/}
+                        {/*        <Deposits />*/}
+                        {/*    </Paper>*/}
+                        {/*</Grid>*/}
+                        {/* Recent UploadsRecord */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-                                <Orders />
+                                <UploadsRecord/>
                             </Paper>
                         </Grid>
                     </Grid>
