@@ -327,8 +327,6 @@ export default function AdminUpload() {
                 </Paper>
 
             </Container>
-
-            <Footer/>
         </div>
     );
 }

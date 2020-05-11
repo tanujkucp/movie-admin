@@ -34,12 +34,15 @@ import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import SignIn from "./SignIn";
+import Upload from "./Upload";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        backgroundColor: '#cfd8dc',
     },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
@@ -57,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: 'rgb(36, 40, 44)'
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -82,7 +86,8 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
-        }),
+        })
+
     },
     drawerPaperClose: {
         overflowX: 'hidden',
@@ -146,7 +151,7 @@ export default function Dashboard() {
     const backup = (key) => {
         //fetch data from server with given key
         axios.post(configs.server_address + '/services/backupDatabase', {secret_key: key.trim()}).then(res => {
-            if (res.status === 200 ){
+            if (res.status === 200) {
                 downloadFile(res.data.data, res.data.filename);
                 setSecret('');
             }
@@ -163,8 +168,8 @@ export default function Dashboard() {
                 <DialogTitle id="form-dialog-title">Admin Action</DialogTitle>
                 <DialogContent>
                     <TextField autoFocus margin="dense" label="Secret Key" fullWidth
-                        value={secret_key}
-                        onChange={event => setSecret(event.target.value)}
+                               value={secret_key}
+                               onChange={event => setSecret(event.target.value)}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -215,19 +220,22 @@ export default function Dashboard() {
                 <Divider/>
                 <List>
 
-                    <ListItemLink button href={'#'} selected={selectedIndex === 0} onClick={(e) => setSelectedIndex(0)}>
+                    <ListItemLink button href={'#'} selected={selectedIndex === 0}
+                                  onClick={(e) => setSelectedIndex(0)}>
                         <ListItemIcon>
                             <DashboardIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Dashboard"/>
                     </ListItemLink>
-                    <ListItemLink button href={'/login'}>
+                    <ListItemLink button selected={selectedIndex === 1}
+                                  onClick={(e) => setSelectedIndex(1)}>
                         <ListItemIcon>
                             <LockOpenIcon/>
                         </ListItemIcon>
                         <ListItemText primary="Login"/>
                     </ListItemLink>
-                    <ListItemLink button href={'/upload'}>
+                    <ListItemLink button selected={selectedIndex === 2}
+                                  onClick={(e) => setSelectedIndex(2)}>
                         <ListItemIcon>
                             <CloudUploadIcon/>
                         </ListItemIcon>
@@ -238,7 +246,7 @@ export default function Dashboard() {
                 <Divider/>
                 <List>
                     <ListSubheader>Actions</ListSubheader>
-                    <ListItem button onClick={()=> setDialogOpen(true)}>
+                    <ListItem button onClick={() => setDialogOpen(true)}>
                         <ListItemIcon>
                             <CloudDownloadIcon/>
                         </ListItemIcon>
@@ -263,11 +271,28 @@ export default function Dashboard() {
                         {/*    </Paper>*/}
                         {/*</Grid>*/}
                         {/* Recent UploadsRecord */}
-                        <Grid item xs={12}>
-                            <Paper className={classes.paper}>
-                                <UploadsRecord/>
-                            </Paper>
-                        </Grid>
+                        {selectedIndex === 0 ? (
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <UploadsRecord/>
+                                </Paper>
+                            </Grid>
+                        ) : null}
+                        {selectedIndex === 1 ? (
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <SignIn/>
+                                </Paper>
+                            </Grid>
+                        ) : null}
+                        {selectedIndex === 2 ? (
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <Upload/>
+                                </Paper>
+                            </Grid>
+                        ) : null}
+
                     </Grid>
                 </Container>
                 <Footer/>

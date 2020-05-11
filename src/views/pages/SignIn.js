@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -24,11 +24,9 @@ import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        paddingBottom: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: 30
     },
     avatar: {
         margin: theme.spacing(1),
@@ -36,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '90%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -69,6 +67,14 @@ export default function SignIn() {
         navigator.clipboard.writeText(key);
         setInfo('Copied!');
     };
+    const downloadFile = () => {
+        let element = document.createElement("a");
+        let file = new Blob([key], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = credentials.username + ".txt";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+    }
 
     const login = () => {
         setLoading(true);
@@ -78,6 +84,7 @@ export default function SignIn() {
                     //show secret key to user
                     setKey(res.data.user_secret);
                     setOpen(true);
+                    setCredentials({username: '', password: ''});
                 }
                 setLoading(false);
             }).catch((err) => {
@@ -96,6 +103,7 @@ export default function SignIn() {
                     setInfo("Your secret key is valid and can be used.");
                 }
                 setLoading(false);
+                setSecret('');
             }).catch((err) => {
             setLoading(false);
             console.log(err);
@@ -107,7 +115,7 @@ export default function SignIn() {
     return (
         <div style={{backgroundColor: '#cfd8dc'}}>
             {loading ? (<LinearProgress variant="query" color="secondary"/>) : (null)}
-            <Container component="main" maxWidth="sm" style={{backgroundColor: '#cfd8dc', paddingTop: 10}}>
+            <Container component="main" maxWidth="sm" style={{backgroundColor: '#cfd8dc'}}>
 
                 <Snackbar open={error} autoHideDuration={5000} onClose={() => setError(null)}>
                     <Alert severity="error" onClose={() => setError(null)}>
@@ -218,10 +226,12 @@ export default function SignIn() {
                     <Button onClick={copyToClipboard} color="primary" autoFocus>
                         Copy to Clipboard
                     </Button>
+                    <Button onClick={downloadFile} color="primary">
+                        Download
+                    </Button>
                 </DialogActions>
             </Dialog>
 
-            <Footer/>
         </div>
     );
 }

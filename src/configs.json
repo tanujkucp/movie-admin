@@ -1,6 +1,6 @@
 {
   "website_name": "Filmistaan",
   "website_address": "/",
-  "server_address": "http://localhost:5001/filmistaan-1f6ac/asia-northeast1",
+  "server_address": "https://asia-northeast1-filmistaan-1f6ac.cloudfunctions.net",
   "website_public_address": "https://filmistaan.web.app"
 }
