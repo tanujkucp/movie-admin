@@ -10,13 +10,15 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import CancelIcon from '@material-ui/icons/Cancel';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+
 
 export default function UploadPart3(props) {
     const [link, setLink] = useState({label: '', link: ''});
     const [data, setData] = useState(props.data);
     useEffect(() => {
         setData(props.data);
-    },[props.data]);
+    }, [props.data]);
 
     if (data.downloads.length === 0) data.downloads.push({quality: '', size: '', details: ['', ''], links: []});
 
@@ -75,7 +77,6 @@ export default function UploadPart3(props) {
         };
         setData(newData);
         props.getData(newData);
-
     };
 
     const addMoreDownload = () => {
@@ -90,6 +91,15 @@ export default function UploadPart3(props) {
 
     const deleteExtraDownload = (index) => {
         data.downloads.splice(index, 1);
+        let newData = {
+            ...data,
+            downloads: data.downloads
+        };
+        setData(newData);
+        props.getData(newData);
+    };
+    const deleteExtraLinkInsideDownload = (DLIndex, LinkIndex) => {
+        data.downloads[DLIndex].links.splice(LinkIndex, 1);
         let newData = {
             ...data,
             downloads: data.downloads
@@ -175,10 +185,17 @@ export default function UploadPart3(props) {
                                     />
                                 </Grid>
 
-                                {dl.links.map((link) => (
+                                {dl.links.map((link, LinkIndex) => (
                                     <Grid item xs={12} key={link.link}>
                                         <Typography variant="subtitle1" style={{marginBottom: -20}} noWrap={true}>
-                                            <DoneIcon color={'primary'}/>{link.label} : <Link href={link.link}> {link.link}</Link>
+                                            <IconButton aria-label="delete"
+                                                        size={'small'}
+                                                        style={{color: 'red'}}
+                                                        onClick={() => deleteExtraLinkInsideDownload(index, LinkIndex)}>
+                                                <HighlightOffIcon/>
+                                            </IconButton>
+                                            {link.label} : <a target="_blank" rel="noopener noreferrer"
+                                                              href={link.link}> {link.link}</a>
                                         </Typography>
                                     </Grid>
                                 ))}
