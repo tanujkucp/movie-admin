@@ -167,7 +167,7 @@ export default function Dashboard() {
             <Dialog open={dialog_open} onClose={() => setDialogOpen(false)} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Admin Action</DialogTitle>
                 <DialogContent>
-                    <TextField autoFocus margin="dense" label="Secret Key" fullWidth
+                    <TextField autoFocus margin="dense" label="Secret Key" fullWidth type="password"
                                value={secret_key}
                                onChange={event => setSecret(event.target.value)}
                     />

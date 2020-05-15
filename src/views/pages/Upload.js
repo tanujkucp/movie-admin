@@ -183,7 +183,7 @@ export default function AdminUpload() {
         let element = document.createElement("a");
         let file = new Blob([JSON.stringify(text, null, 2)], {type: 'application/json'});
         element.href = URL.createObjectURL(file);
-        element.download = text.media_id + ".json";
+        element.download = text.title + ".json";
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
     }

@@ -76,7 +76,8 @@ export default function AddressForm(props) {
         'Hotstar',
         'ErosNow',
         'ALTBalaji',
-        'HOOQ'
+        'HOOQ',
+        'Apple TV+'
     ];
 
     return (
