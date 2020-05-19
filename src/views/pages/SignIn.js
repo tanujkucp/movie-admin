@@ -11,7 +11,6 @@ import MuiAlert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import configs from './../../configs.json';
 import Snackbar from "@material-ui/core/Snackbar";
-import Footer from './../widgets/Footer';
 import LinearProgress from "@material-ui/core/LinearProgress";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '90%', // Fix IE 11 issue.
-
     },
     submit: {
         margin: theme.spacing(3, 0, 2),

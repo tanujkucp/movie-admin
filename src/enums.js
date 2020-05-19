@@ -3,6 +3,7 @@ export const server_addr = "https://asia-northeast1-filmistaan-1f6ac.cloudfuncti
 export const Industry = {
     BOLLYWOOD: 'Bollywood',
     HOLLYWOOD: 'Hollywood',
+    PLUS18: '18+',
     OTHER: 'Other'
 };
 

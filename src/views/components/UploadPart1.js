@@ -152,6 +152,7 @@ export default function AddressForm(props) {
                         <Select value={data.industry} onChange={handleChange} name={'industry'}>
                             <MenuItem value={Industry.BOLLYWOOD}>{Industry.BOLLYWOOD}</MenuItem>
                             <MenuItem value={Industry.HOLLYWOOD}>{Industry.HOLLYWOOD}</MenuItem>
+                            <MenuItem value={Industry.PLUS18}>{Industry.PLUS18}</MenuItem>
                             <MenuItem value={Industry.OTHER}>{Industry.OTHER}</MenuItem>
                         </Select>
                     </FormControl>
@@ -163,6 +164,7 @@ export default function AddressForm(props) {
                             <MenuItem value={MediaType.MOVIE}>{MediaType.MOVIE}</MenuItem>
                             <MenuItem value={MediaType.WEBSERIES}>{MediaType.WEBSERIES}</MenuItem>
                             <MenuItem value={MediaType.DOCUMENTARY}>{MediaType.DOCUMENTARY}</MenuItem>
+                            <MenuItem value={MediaType.VIDEO}>{MediaType.VIDEO}</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

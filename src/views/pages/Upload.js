@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import MuiAlert from '@material-ui/lab/Alert';
 import axios from 'axios';
 import Snackbar from "@material-ui/core/Snackbar";
-import Footer from './../widgets/Footer';
 import UploadPart1 from "../components/UploadPart1";
 import UploadPart2 from "../components/UploadPart2";
 import UploadPart3 from "../components/UploadPart3";
