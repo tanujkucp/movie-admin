@@ -142,7 +142,7 @@ export default function Dashboard() {
 
     const downloadFile = (data, name) => {
         let element = document.createElement("a");
-        let file = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        let file = new Blob([data], {type: 'application/json'});
         element.href = URL.createObjectURL(file);
         element.download = name;
         document.body.appendChild(element); // Required for this to work in FireFox
