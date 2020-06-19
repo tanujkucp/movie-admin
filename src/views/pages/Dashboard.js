@@ -26,6 +26,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ListItem from "@material-ui/core/ListItem";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
 import configs from "../../configs";
 import axios from "axios";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -36,6 +37,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import SignIn from "./SignIn";
 import Upload from "./Upload";
+import Ads from "./Ads";
 
 const drawerWidth = 240;
 
@@ -241,6 +243,13 @@ export default function Dashboard() {
                         </ListItemIcon>
                         <ListItemText primary="Upload"/>
                     </ListItemLink>
+                    <ListItemLink button selected={selectedIndex === 3}
+                                  onClick={(e) => setSelectedIndex(3)}>
+                        <ListItemIcon>
+                            <FeaturedPlayListIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Ad Manager"/>
+                    </ListItemLink>
 
                 </List>
                 <Divider/>
@@ -289,6 +298,14 @@ export default function Dashboard() {
                             <Grid item xs={12}>
                                 <Paper className={classes.paper}>
                                     <Upload/>
+                                </Paper>
+                            </Grid>
+                        ) : null}
+
+                        {selectedIndex === 3 ? (
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <Ads/>
                                 </Paper>
                             </Grid>
                         ) : null}

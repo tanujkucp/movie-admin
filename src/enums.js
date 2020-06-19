@@ -3,6 +3,7 @@ export const server_addr = "https://asia-northeast1-filmistaan-1f6ac.cloudfuncti
 export const Industry = {
     BOLLYWOOD: 'Bollywood',
     HOLLYWOOD: 'Hollywood',
+    SOUTH : 'South Indian',
     PLUS18: '18+',
     OTHER: 'Other'
 };
@@ -15,6 +16,7 @@ export const MediaType = {
 };
 
 export const VideoResolution = {
+    SD: '480p',
     HD: '720p',
     HDplus: '1080p',
     QHD : '1440p',

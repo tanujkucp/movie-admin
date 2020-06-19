@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20
     },
     avatar: {
         margin: theme.spacing(1),
@@ -89,7 +91,7 @@ export default function SignIn() {
             setLoading(false);
             console.log(err);
             if (err.response) setError(err.response.data.message);
-        })
+        });
     };
 
     const verifyJWT = () => {

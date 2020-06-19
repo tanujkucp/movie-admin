@@ -66,9 +66,14 @@ export default function AddressForm(props) {
         'HQ',
         'DD 5.1',
         '10 Bit',
+        'HDR10',
+        VideoResolution.SD,
         VideoResolution.HDplus,
         VideoResolution.HD,
+        VideoResolution.QHD,
         VideoResolution.UHD,
+        'G Drive',
+        'OneDrive',
         'Amazon Prime',
         'Netflix',
         'Zee5',
@@ -76,6 +81,7 @@ export default function AddressForm(props) {
         'Hotstar',
         'ErosNow',
         'ALTBalaji',
+        'MX Player',
         'HOOQ',
         'Apple TV+'
     ];
@@ -153,6 +159,7 @@ export default function AddressForm(props) {
                             <MenuItem value={Industry.BOLLYWOOD}>{Industry.BOLLYWOOD}</MenuItem>
                             <MenuItem value={Industry.HOLLYWOOD}>{Industry.HOLLYWOOD}</MenuItem>
                             <MenuItem value={Industry.PLUS18}>{Industry.PLUS18}</MenuItem>
+                            <MenuItem value={Industry.SOUTH}>{Industry.SOUTH}</MenuItem>
                             <MenuItem value={Industry.OTHER}>{Industry.OTHER}</MenuItem>
                         </Select>
                     </FormControl>
