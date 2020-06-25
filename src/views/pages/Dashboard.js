@@ -27,6 +27,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 import FeaturedPlayListIcon from '@material-ui/icons/FeaturedPlayList';
+import RestoreIcon from '@material-ui/icons/Restore';
 import configs from "../../configs";
 import axios from "axios";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -38,6 +39,7 @@ import Dialog from "@material-ui/core/Dialog";
 import SignIn from "./SignIn";
 import Upload from "./Upload";
 import Ads from "./Ads";
+import RestoreDatabase from "./RestoreDatabase";
 
 const drawerWidth = 240;
 
@@ -250,6 +252,13 @@ export default function Dashboard() {
                         </ListItemIcon>
                         <ListItemText primary="Ad Manager"/>
                     </ListItemLink>
+                    <ListItemLink button selected={selectedIndex === 4}
+                                  onClick={(e) => setSelectedIndex(4)}>
+                        <ListItemIcon>
+                            <RestoreIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Restore Database"/>
+                    </ListItemLink>
 
                 </List>
                 <Divider/>
@@ -306,6 +315,14 @@ export default function Dashboard() {
                             <Grid item xs={12}>
                                 <Paper className={classes.paper}>
                                     <Ads/>
+                                </Paper>
+                            </Grid>
+                        ) : null}
+
+                        {selectedIndex === 4 ? (
+                            <Grid item xs={12}>
+                                <Paper className={classes.paper}>
+                                    <RestoreDatabase/>
                                 </Paper>
                             </Grid>
                         ) : null}
