@@ -177,6 +177,8 @@ export default function AdminUpload() {
             poster_link: data.poster_link,
             media_id: response.media_id,
             genre: data.genre,
+            language: data.language,
+            release_year: data.release_year,
             objectID: response.media_id
         };
         let element = document.createElement("a");
