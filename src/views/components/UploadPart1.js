@@ -83,7 +83,9 @@ export default function AddressForm(props) {
         'ALTBalaji',
         'MX Player',
         'HOOQ',
-        'Apple TV+'
+        'Apple TV+',
+        'Sony Liv',
+        'Shemaroo'
     ];
 
     return (
